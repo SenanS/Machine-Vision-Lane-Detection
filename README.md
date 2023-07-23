@@ -1,18 +1,3 @@
-
----
-jupyter:
-  colab:
-  gpuClass: standard
-  kernelspec:
-    display_name: Python 3
-    name: python3
-  language_info:
-    name: python
-  nbformat: 4
-  nbformat_minor: 0
----
-
-::: {.cell .markdown id="Zd7HHVjTC9pc"}
 # Machine-Vision-Lane-Detection and Recognition
 
 Lane detection, recognition and segmentation are pivotal problems in the
@@ -30,31 +15,23 @@ original frames.
 # Recognition Pipeline
 ![Processing pipeline](https://user-images.githubusercontent.com/30498489/225138992-585ee43c-6e57-4605-9d22-6333b4ca666a.png)
 
-:::
-
-::: {.cell .code execution_count="1" colab="{\"base_uri\":\"https://localhost:8080/\",\"height\":0}" id="7HBrrk5IFVZT" outputId="7863505a-4256-4eeb-f104-873adce3277d"}
 ``` python
 from google.colab import drive
 colab_path = '/content/drive/'
 video_path = colab_path + 'MyDrive/MVGCV/'
 drive.mount(colab_path)
 ```
-
-::: {.output .stream .stdout}
     Mounted at /content/drive/
-:::
-:::
 
-::: {.cell .code execution_count="2" id="n1TS8zob7zS0"}
 ``` python
 import matplotlib.pylab as plt
 import cv2
 import math
 import numpy as np
 ```
-:::
 
-::: {.cell .code execution_count="3" id="BrSnU8yq_7k-"}
+
+
 ``` python
 video = cv2.VideoCapture(video_path + 'DualcarriagewayAndTown.mp4')
 
@@ -62,9 +39,9 @@ video = cv2.VideoCapture(video_path + 'DualcarriagewayAndTown.mp4')
 if (video.isOpened()== False):
     print("Error opening Video")
 ```
-:::
 
-::: {.cell .code execution_count="41" colab="{\"base_uri\":\"https://localhost:8080/\",\"height\":567}" id="l4kQcKfVE00j" outputId="f2b6747c-eb41-4c5e-b6f1-d908bcaef0d0"}
+
+
 ``` python
 from google.colab.patches import cv2_imshow
 # ret, frame = video.read()
@@ -75,12 +52,12 @@ if ret == True:
     cv2_imshow(frame)
 ```
 
-::: {.output .display_data}
-![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/23e00b2cff87f16843b67ca503feec2be86fcc7c.png)
-:::
-:::
 
-::: {.cell .code execution_count="42" colab="{\"base_uri\":\"https://localhost:8080/\",\"height\":567}" id="9qtABOXUYL3D" outputId="1208f759-04bb-4501-bded-742accc70c37"}
+![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/23e00b2cff87f16843b67ca503feec2be86fcc7c.png)
+
+
+
+
 ``` python
 ysize,xsize = frame.shape[0:2]
 
@@ -110,12 +87,12 @@ trapped_image = cv2.bitwise_and(frame, mask)
 cv2_imshow(trapped_image)
 ```
 
-::: {.output .display_data}
-![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/ff4698dc9872b430a33821e4bdfa9006122fcb06.png)
-:::
-:::
 
-::: {.cell .code execution_count="43" colab="{\"base_uri\":\"https://localhost:8080/\",\"height\":567}" id="qH0V2r87S047" outputId="834d494b-efd2-4900-a276-3baccdf0b25e"}
+![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/ff4698dc9872b430a33821e4bdfa9006122fcb06.png)
+
+
+
+
 ``` python
 grey = cv2.cvtColor(trapped_image,cv2.COLOR_BGR2GRAY)
 # blur = cv2.GaussianBlur(gray,(1,1),1000)
@@ -133,12 +110,12 @@ cv2_imshow(sobel_filter)
 # cv2_imshow(scharr_filter)
 ```
 
-::: {.output .display_data}
-![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/34990f3b4be7ee247c8956ddd61d5c87e5f0f13e.png)
-:::
-:::
 
-::: {.cell .code execution_count="44" colab="{\"base_uri\":\"https://localhost:8080/\",\"height\":567}" id="aegc2YZdWT1S" outputId="e795448b-9f5c-4891-bd75-2604667cf0fa"}
+![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/34990f3b4be7ee247c8956ddd61d5c87e5f0f13e.png)
+
+
+
+
 ``` python
 hls_frame = cv2.cvtColor(trapped_image,cv2.COLOR_BGR2HLS)
 
@@ -148,20 +125,20 @@ hls_masked_image = cv2.bitwise_and(frame,frame, mask=hls_mask)
 cv2_imshow(hls_masked_image)
 ```
 
-::: {.output .display_data}
-![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/5daf14a89fb8b32927cff1ddc8e627970e01f57d.png)
-:::
-:::
 
-::: {.cell .code execution_count="45" id="Jld2H3Mebhmx"}
+![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/5daf14a89fb8b32927cff1ddc8e627970e01f57d.png)
+
+
+
+
 ``` python
 hls_grey = cv2.cvtColor(hls_masked_image,cv2.COLOR_BGR2GRAY)
 combined_image = cv2.bitwise_and(sobel_filter, hls_grey)
 # cv2_imshow(combined_image)
 ```
-:::
 
-::: {.cell .code execution_count="46" id="P8gEiYDLo4-j"}
+
+
 ``` python
 # Prepocess
 # gray = cv2.cvtColor(combined_image,cv2.COLOR_BGR2GRAY)
@@ -188,9 +165,9 @@ img_dilation2 = cv2.dilate(img_erosion1, kernel, iterations=1)
 # cv2_imshow(combined_image)
 # cv2_imshow(img_dilation2)
 ```
-:::
 
-::: {.cell .code execution_count="47" colab="{\"base_uri\":\"https://localhost:8080/\",\"height\":567}" id="_dP9bNaVWuBc" outputId="8820caa8-cfb0-499c-ea8c-bcdff094369f"}
+
+
 ``` python
 # Create a smaller trapezoidal area of interest
 dx1 = int(0.00 * xsize)
@@ -241,12 +218,12 @@ cv2.polylines(img,shrunk_vertices,True,(255,0,0),2)
 cv2_imshow(img)
 ```
 
-::: {.output .display_data}
-![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/2d933ddd8cbcde82e75de3d91b59c7019494fe26.png)
-:::
-:::
 
-::: {.cell .code execution_count="48" colab="{\"base_uri\":\"https://localhost:8080/\",\"height\":585}" id="6PBzV68Mpmom" outputId="07c2ff25-9c55-4d30-b9b2-6adcd00b9dad"}
+![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/2d933ddd8cbcde82e75de3d91b59c7019494fe26.png)
+
+
+
+
 ``` python
 CACHE_LEFT_SLOPE = 0
 CACHE_RIGHT_SLOPE = 0
@@ -262,16 +239,16 @@ processed_img = cv2.addWeighted(frame, 0.8, drawn_img, 1, 0)
 cv2_imshow(processed_img)
 ```
 
-::: {.output .stream .stdout}
+
     296.98484809834997
-:::
 
-::: {.output .display_data}
+
+
 ![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/7f5950ceca59c0878ad7b0999439ed766f911169.png)
-:::
-:::
 
-::: {.cell .code execution_count="50" id="YzwWgDdqphNr"}
+
+
+
 ``` python
 def draw_lines(img, lines,color_left,color_right,thickness=12):
 
@@ -389,21 +366,21 @@ def draw_lines(img, lines,color_left,color_right,thickness=12):
     if right_ys:
       cv2.line(img, (right_x1, right_y1), (right_x2, bottom_of_image), color_right, thickness)
 ```
-:::
 
-::: {.cell .code id="ISTKIenUFBEh"}
+
+
 ``` python
 video.release()
 # Closes all the frames
 cv2.destroyAllWindows()
 ```
-:::
 
-::: {.cell .markdown id="9Pch8qx1Ir5E"}
+
+
 # Rough Work and Ideas from this point on
-:::
 
-::: {.cell .code execution_count="51" id="kXmIa_7elK_0"}
+
+
 ``` python
 ysize,xsize = frame.shape[0:2]
 
@@ -444,9 +421,9 @@ hough_image = np.zeros((*new_img.shape, 3), dtype=np.uint8)
 #     cv2.line(img_r_2,(x1,y1),(x2,y2),(0,255,0),2)
 # cv2_imshow(masked)
 ```
-:::
 
-::: {.cell .code execution_count="52" id="0o85w9lPm9KY"}
+
+
 ``` python
 # Source points for homography.
 bird_eye_coords_= np.float32([[410,335], [535, 334], [780, 479], [150, 496]])
@@ -458,9 +435,9 @@ h_, mask = cv2.findHomography( bird_eye_coords_,world_coords_,cv2.RANSAC,5.0)
 
 warped = cv2.warpPerspective(masked,h_,(300,600),flags=cv2.INTER_LINEAR)
 ```
-:::
 
-::: {.cell .code execution_count="53" colab="{\"base_uri\":\"https://localhost:8080/\",\"height\":567}" id="fyLFCJUZcMtj" outputId="07058b5e-7497-416b-8b34-41897c03462f"}
+
+
 ``` python
 # gray = cv2.cvtColor(img_erosion3,cv2.COLOR_BGR2GRAY)
 # blur = cv2.GaussianBlur(gray,(1,1),1000)
@@ -474,12 +451,12 @@ for line in lines:
 cv2_imshow(imgHoughed)
 ```
 
-::: {.output .display_data}
-![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/2148aff81171505beff7733707eb13277250495b.png)
-:::
-:::
 
-::: {.cell .code execution_count="18" colab="{\"base_uri\":\"https://localhost:8080/\",\"height\":567}" id="KNIMU1hNX6eN" outputId="c6e60cfd-0dcd-4166-f9a4-8b121417595b"}
+![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/2148aff81171505beff7733707eb13277250495b.png)
+
+
+
+
 ``` python
 hsv_frame = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
 
@@ -491,12 +468,12 @@ target = cv2.bitwise_and(frame,frame, mask=mask)
 cv2_imshow(target)
 ```
 
-::: {.output .display_data}
-![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/0cfa2eff902d547ff41f8aafc88360b16611cb83.png)
-:::
-:::
 
-::: {.cell .code execution_count="19" colab="{\"base_uri\":\"https://localhost:8080/\",\"height\":567}" id="8KyggCVWixJi" outputId="47caa1cc-0aa8-4730-b43c-b9cd245ad259"}
+![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/0cfa2eff902d547ff41f8aafc88360b16611cb83.png)
+
+
+
+
 ``` python
 # Prepocess
 # gray = cv2.cvtColor(target,cv2.COLOR_BGR2GRAY)
@@ -515,12 +492,12 @@ imgcont = target.copy()
 cv2_imshow(imgcont)
 ```
 
-::: {.output .display_data}
-![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/b0346104c800a4972a24f221655c8baaa2beee26.png)
-:::
-:::
 
-::: {.cell .code execution_count="20" colab="{\"base_uri\":\"https://localhost:8080/\",\"height\":452}" id="-gJAL7HUG3d2" outputId="7a2b3f37-f667-4583-c255-175d2cb148bd"}
+![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/b0346104c800a4972a24f221655c8baaa2beee26.png)
+
+
+
+
 ``` python
 
 height, width, depth = frame.shape
@@ -534,21 +511,21 @@ plt.title('Histogram for color scale picture')
 plt.show()
 ```
 
-::: {.output .display_data}
-![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/f18721bd40b8346edc1fdee8e688602a0cfbbb4c.png)
-:::
-:::
 
-::: {.cell .code execution_count="21" id="-wD5VJDVf0WW"}
+![](vertopal_26fe6d73bd9e4b6389411947b39b0fe1/f18721bd40b8346edc1fdee8e688602a0cfbbb4c.png)
+
+
+
+
 ``` python
 def draw_lines(image, lines, color=[255, 0, 0], thickness=2):
     for line in lines:
         for x1,y1,x2,y2 in line:
             cv2.line(image, (x1, y1), (x2, y2), color, thickness)
 ```
-:::
 
-::: {.cell .markdown id="2xh5iMc1uA9H"}
+
+
 ## Inspirations and sources
 
 -   <https://github.com/bharadwaj-chukkala/Road-Lanes-detection-and-Turn-Prediction-using-Sliding-Window-Algorithm/blob/master/Lane_Detection.py>
@@ -557,4 +534,4 @@ def draw_lines(image, lines, color=[255, 0, 0], thickness=2):
 -   <https://www.sciencedirect.com/science/article/pii/S2214785320373302?casa_token=9_yFfncWoRIAAAAA:LoAM-vsl4Sb2JOpQ2cYtQyZY7sadoVVX5wIujeV3-rHMFDT6AljVKooSvG-BQZH_51Ro2LwJng#f0040>
 -   <https://medium.com/@ldesegur/a-lane-detection-approach-for-self-driving-vehicles-c5ae1679f7ee>
 -   <https://opencv.org/evaluating-opencvs-new-ransacs/>
-:::
+
