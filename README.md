@@ -9,6 +9,7 @@ from a video stream frame-by-frame, filtered and processed to find
 likely lane markings and graphically represents these markings on the
 original frames.
 
+[Article on implementation](MVGCV_Lane_Recognition.pdf)
 
 # Pre-Processing Pipeline
 ![Preprocessing Pipeline](https://user-images.githubusercontent.com/30498489/225138986-d7c3b43b-365e-4ce3-950f-514af3832f3e.png)
