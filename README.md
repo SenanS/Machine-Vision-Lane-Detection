@@ -1,4 +1,5 @@
 # Machine-Vision-Lane-Detection and Recognition
+## [Blog on implementation](https://senans.github.io/Technical-Blog/2024/01/14/Lane-Recognition/)
 
 Lane detection, recognition and segmentation are pivotal problems in the
 automotive industry as mainstream autonomous vehicles (AV) teeter on the
@@ -9,12 +10,12 @@ from a video stream frame-by-frame, filtered and processed to find
 likely lane markings and graphically represents these markings on the
 original frames.
 
-[Article on implementation](MVGCV_Lane_Recognition.pdf)
-
 # Pre-Processing Pipeline
 ![Preprocessing Pipeline](https://user-images.githubusercontent.com/30498489/225138986-d7c3b43b-365e-4ce3-950f-514af3832f3e.png)
 # Recognition Pipeline
 ![Processing pipeline](https://user-images.githubusercontent.com/30498489/225138992-585ee43c-6e57-4605-9d22-6333b4ca666a.png)
+
+# [Article on implementation](MVGCV_Lane_Recognition.pdf)
 
 ``` python
 from google.colab import drive
